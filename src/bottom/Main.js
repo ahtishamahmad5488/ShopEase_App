@@ -43,6 +43,10 @@ const Main = () => {
     dispatch(addToCart(item));
   };
   const handleAddToFavorite = item => {
+    setFavoriteIcon(prevState => ({
+      ...prevState,
+      [item.id]: !prevState[item.id], // Toggle the state for the specific item
+    }));
     dispatch(addToFavorite(item));
   };
   const handlePriceRangeChange = range => {
@@ -96,13 +100,13 @@ const Main = () => {
           <Text style={styles.addToCartText}>Add To Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={(() => setFavoriteIcon(true), handleAddToFavorite(item))}
+          onPress={() => handleAddToFavorite(item)}
           style={styles.favoriteButton}>
           <Image
             style={{
               height: 30,
               width: 30,
-              tintColor: favoriteIcon == true ? '#ff6f6f' : '#c9c3c3',
+              tintColor: favoriteIcon[item.id] ? '#ff6f6f' : '#c9c3c3',
             }}
             source={require('../images/favoriteFilled.png')}
           />
@@ -368,6 +372,5 @@ const styles = StyleSheet.create({
   favoriteIcon: {
     height: 38,
     width: 38,
-    tintColor: favorite == true ? '#ff6f6f' : '#c9c3c3',
   },
 });

@@ -71,31 +71,66 @@ const SpecificRangeList = ({route}) => {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Text style={styles.title}>Products</Text>
-        {loading ? (
-          <Loader />
-        ) : (
-          <FlatList
-            scrollEnabled={false}
-            nestedScrollEnabled={true}
-            data={products}
-            keyExtractor={item => item.id.toString()}
-            renderItem={renderProduct}
-            numColumns={2}
-            columnWrapperStyle={styles.columnWrapper}
-            showsVerticalScrollIndicator={false}
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../images/arrowback.png')} // Back button icon
+            style={styles.backIcon}
           />
-        )}
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Product List</Text>
+        <View style={styles.headerPlaceholder} />
+        {/* To balance the header layout */}
       </View>
-    </ScrollView>
+      <ScrollView style={styles.container}>
+        <View style={styles.innerContainer}>
+          <Text style={styles.title}>Products</Text>
+          {loading ? (
+            <Loader />
+          ) : (
+            <FlatList
+              scrollEnabled={false}
+              nestedScrollEnabled={true}
+              data={products}
+              keyExtractor={item => item.id.toString()}
+              renderItem={renderProduct}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapper}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 export default SpecificRangeList;
 
 const styles = StyleSheet.create({
+  header: {
+    width: '100%',
+    height: 60,
+    backgroundColor: '#fac0ee',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  backIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#ff6f6f', // Adjust the color if needed
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#ff6f6f',
+  },
+  headerPlaceholder: {
+    width: 24, // Same width as the back icon to balance the layout
+  },
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
