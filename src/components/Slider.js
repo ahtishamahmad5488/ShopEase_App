@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-const Slider = () => {
+const Slider = ({onValuesChangeFinish}) => {
   const [range, setRange] = useState([1000, 50000]); // Initial range values
 
   return (
