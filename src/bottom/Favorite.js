@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     paddingHorizontal: 20,
-    backgroundColor: '#ff6f6f',
+    backgroundColor: '#fac0ee',
     elevation: 10,
     flexDirection: 'row',
     alignItems: 'center',
@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
   backIcon: {
     height: 20,
     width: 20,
-    tintColor: 'white',
+    tintColor: '#ff6f6f',
   },
   cartTitle: {
-    color: 'white',
+    color: '#ff6f6f',
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',

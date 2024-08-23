@@ -203,6 +203,7 @@ const style = StyleSheet.create({
     borderTopLeftRadius: 30,
     elevation: 10,
     borderTopWidth: 1,
+
     borderTopColor: '#e0e0e0',
   },
   footerItem: {

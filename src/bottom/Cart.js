@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     color: '#333333',
   },
   viewOrderButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#ff6f6f',
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 6,
