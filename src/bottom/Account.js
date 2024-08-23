@@ -35,9 +35,11 @@ const UserInfoScreen = () => {
       {/* Contact Info */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Contact Information</Text>
-        <Text style={styles.sectionText}>Email: ahtisham548849.com</Text>
+        <Text style={styles.sectionText}>Email: ahtisham548849@gmail.com</Text>
         <Text style={styles.sectionText}>Phone: +92-3217734008</Text>
-        <Text style={styles.sectionText}>Location: New York, USA</Text>
+        <Text style={styles.sectionText}>
+          Location: Walton Road Lahore Cantt
+        </Text>
       </View>
 
       {/* Skills */}
@@ -151,5 +153,3 @@ const styles = StyleSheet.create({
 });
 
 export default UserInfoScreen;
-
-

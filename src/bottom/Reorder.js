@@ -110,7 +110,7 @@ const Reorder = () => {
                           flexDirection: 'row',
                           marginTop: 5,
                         }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                           onPress={() => handleRemoveToCart(item)}
                           style={{
                             backgroundColor: 'red',
@@ -122,7 +122,7 @@ const Reorder = () => {
                             paddingRight: 10,
                           }}>
                           <Text style={{color: 'white'}}>Remove To Cart</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                       </View>
                     </View>
                   </View>
@@ -189,11 +189,12 @@ const style = StyleSheet.create({
   },
   cartItemsStyle: {
     width: '90%',
-    height: 120,
+    height: 100,
     backgroundColor: 'white',
     elevation: 5,
     alignSelf: 'center',
     margin: 5,
+    marginTop: 5,
     borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',

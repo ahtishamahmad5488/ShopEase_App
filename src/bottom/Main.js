@@ -8,9 +8,9 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
-import {deviceWidth, deviceHeight} from '../components/Dimensions';
-import React, {useState, useEffect, useCallback} from 'react';
-import firestore from '@react-native-firebase/firestore';
+import {deviceWidth} from '../components/Dimensions';
+import React, {useState, useEffect} from 'react';
+
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -19,7 +19,6 @@ import {
   fetchCategories,
   fetchProductsByCategory,
   fetchProductSpecificCategory,
-  fetchProductsByPriceRange,
 } from '../redux/Action';
 import Loader from '../components/Loader';
 import PriceSlider from '../components/Slider';
