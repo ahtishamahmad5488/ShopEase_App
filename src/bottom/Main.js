@@ -19,6 +19,7 @@ import {
   fetchCategories,
   fetchProductsByCategory,
   fetchProductSpecificCategory,
+  fetchProductsByPriceRange, // Add this action Set Price Range
 } from '../redux/Action';
 import Loader from '../components/Loader';
 import PriceSlider from '../components/Slider';
@@ -41,6 +42,10 @@ const Main = () => {
   };
   const handleAddToFavorite = item => {
     dispatch(addToFavorite(item));
+  };
+  const handlePriceRangeChange = range => {
+    // Fetch products by price range
+    dispatch(fetchProductsByPriceRange(range[0], range[1]));
   };
 
   useEffect(() => {
@@ -137,7 +142,7 @@ const Main = () => {
 
         <View style={styles.priceRangeSection}>
           <Text style={styles.sectionTitle}>Select Price Range</Text>
-          <PriceSlider />
+          <PriceSlider onValuesChangeFinish={handlePriceRangeChange} />
           <TouchableOpacity style={styles.applyButton}>
             <Text style={styles.applyButtonText}>Apply</Text>
           </TouchableOpacity>
