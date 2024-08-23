@@ -9,6 +9,7 @@ import {
   DECREASE_QUANTITY,
   ADD_FAVORITE,
   REMOVE_FROM_FAVORITE,
+  FETCH_PRODUCTS_BY_PRICE_RANGE,
 } from './ActionType';
 
 // Action to fetch categories from Firestore
@@ -41,30 +42,30 @@ export const fetchProductsByCategory = () => async dispatch => {
   }
 };
 
-///-------For Specific range Price
-// export const fetchProductsByPriceRange =
-//   (minPrice, maxPrice) => async dispatch => {
-//     try {
-//       const productsSnapshot = await firestore()
-//         .collection('products')
-//         .where('categoryId', '==', categoryId)
-//         .where('price', '>=', minPrice)
-//         .where('price', '<=', maxPrice)
-//         .get();
+///--------------Data fetch from firestore by priceRange
+export const fetchProductsByPriceRange =
+  (minPrice, maxPrice) => async dispatch => {
+    try {
+      const productsSnapshot = await firestore()
+        .collection('Products')
+        .where('price', '>=', minPrice)
+        .where('price', '<=', maxPrice)
+        .get();
 
-//       const products = productsSnapshot.docs.map(doc => ({
-//         id: doc.id,
-//         ...doc.data(),
-//       }));
+      const productsData = productsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log('Fetched products: ', productsData); // Log the fetched products
 
-//       dispatch({
-//         type: FETCH_PRODUCTS_BY_PRICE_RANGE,
-//         payload: products,
-//       });
-//     } catch (error) {
-//       console.error('Error fetching products by price range: ', error);
-//     }
-//   };
+      dispatch({
+        type: FETCH_PRODUCTS_BY_PRICE_RANGE,
+        payload: productsData,
+      });
+    } catch (error) {
+      console.error('Error fetching products by price range: ', error);
+    }
+  };
 
 ///-------For Specific Category Data
 export const fetchProductSpecificCategory = categoryId => async dispatch => {

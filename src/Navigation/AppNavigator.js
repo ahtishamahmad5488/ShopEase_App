@@ -9,6 +9,7 @@ import ProductDetails from '../screens/ProductDetails';
 import Cart from '../bottom/Cart';
 import Main from '../bottom/Main';
 import Reorder from '../bottom/Reorder';
+import SpecificRangeList from '../screens/SpecificRangeList';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator = () => {
@@ -48,6 +49,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Reorder"
           component={Reorder}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="SpecificRangeList"
+          component={SpecificRangeList}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

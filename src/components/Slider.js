@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 const Slider = ({onValuesChangeFinish}) => {
-  const [range, setRange] = useState([1000, 50000]); // Initial range values
+  const [range, setRange] = useState([0, 200000]); // Initial range values
 
   return (
     <View style={styles.container}>
@@ -13,6 +13,7 @@ const Slider = ({onValuesChangeFinish}) => {
         max={200000}
         step={1}
         onValuesChange={values => setRange(values)}
+        onValuesChangeFinish={() => onValuesChangeFinish(range)}
         selectedStyle={{
           backgroundColor: '#fac0ee',
         }}

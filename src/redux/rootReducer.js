@@ -14,5 +14,5 @@ export default combineReducers({
   specific: specificCategoryProductReducer,
   reducer,
   favorite: addFavoriteReducer,
-  // specificRange: specificReducer,
+  range: specificReducer, // This is correct
 });

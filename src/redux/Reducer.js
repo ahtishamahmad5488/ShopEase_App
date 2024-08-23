@@ -22,6 +22,10 @@ const initialSpecificCategoryState = {
   products: [],
 };
 
+const initialRangeState = {
+  specificRange: [], // Initialize as an empty array
+};
+
 export const categoriesReducer = (state = initialCategoryState, action) => {
   switch (action.type) {
     case FETCH_CATEGORIES_SUCCESS:
@@ -46,18 +50,17 @@ export const productsReducer = (state = initialProductState, action) => {
   }
 };
 
-// export const specificReducer = (state = [], action) => {
-//   switch (action.type) {
-//     case FETCH_PRODUCTS_BY_PRICE_RANGE:
-//       return {
-//         ...state,
-//         specificRange: action.payload, // Update the state with the fetched products
-//       };
-//     // other cases...
-//     default:
-//       return state;
-//   }
-// };
+export const specificReducer = (state = initialRangeState, action) => {
+  switch (action.type) {
+    case FETCH_PRODUCTS_BY_PRICE_RANGE:
+      return {
+        ...state,
+        specificRange: action.payload, // Storing the payload in `specificRange`
+      };
+    default:
+      return state;
+  }
+};
 
 export const specificCategoryProductReducer = (
   state = initialSpecificCategoryState,

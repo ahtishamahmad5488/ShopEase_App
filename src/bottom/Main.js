@@ -31,6 +31,7 @@ const Main = () => {
 
   const categories = useSelector(state => state.categories.categories);
   const featuredProducts = useSelector(state => state.products.products);
+  const [selectedRange, setSelectedRange] = useState([0, 100000]); // Initial range state
 
   const handleCategoryPress = category => {
     dispatch(fetchProductSpecificCategory(category));
@@ -44,8 +45,15 @@ const Main = () => {
     dispatch(addToFavorite(item));
   };
   const handlePriceRangeChange = range => {
-    // Fetch products by price range
-    dispatch(fetchProductsByPriceRange(range[0], range[1]));
+    setSelectedRange(range);
+  };
+
+  const handleApplyPress = () => {
+    dispatch(fetchProductsByPriceRange(selectedRange[0], selectedRange[1]));
+    navigation.navigate('SpecificRangeList', {
+      minPrice: selectedRange[0],
+      maxPrice: selectedRange[1],
+    });
   };
 
   useEffect(() => {
@@ -143,7 +151,9 @@ const Main = () => {
         <View style={styles.priceRangeSection}>
           <Text style={styles.sectionTitle}>Select Price Range</Text>
           <PriceSlider onValuesChangeFinish={handlePriceRangeChange} />
-          <TouchableOpacity style={styles.applyButton}>
+          <TouchableOpacity
+            onPress={handleApplyPress}
+            style={styles.applyButton}>
             <Text style={styles.applyButtonText}>Apply</Text>
           </TouchableOpacity>
         </View>
