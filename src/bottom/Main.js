@@ -28,6 +28,7 @@ const Main = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [favoriteIcon, setFavoriteIcon] = useState(false);
 
   const categories = useSelector(state => state.categories.categories);
   const featuredProducts = useSelector(state => state.products.products);
@@ -95,10 +96,14 @@ const Main = () => {
           <Text style={styles.addToCartText}>Add To Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => handleAddToFavorite(item)}
+          onPress={(() => setFavoriteIcon(true), handleAddToFavorite(item))}
           style={styles.favoriteButton}>
           <Image
-            style={styles.favoriteIcon}
+            style={{
+              height: 30,
+              width: 30,
+              tintColor: favoriteIcon == true ? '#ff6f6f' : '#c9c3c3',
+            }}
             source={require('../images/favoriteFilled.png')}
           />
         </TouchableOpacity>
@@ -363,5 +368,6 @@ const styles = StyleSheet.create({
   favoriteIcon: {
     height: 38,
     width: 38,
+    tintColor: favorite == true ? '#ff6f6f' : '#c9c3c3',
   },
 });
