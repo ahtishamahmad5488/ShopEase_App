@@ -1,155 +1,3 @@
-// // ProductList.js
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   Image,
-//   FlatList,
-//   TouchableOpacity,
-//   ScrollView,
-// } from 'react-native';
-// import React, {useEffect, useState} from 'react';
-// import {useSelector, useDispatch} from 'react-redux';
-// import {
-//   addToCart,
-//   addToFavorite,
-//   fetchProductSpecificCategory,
-// } from '../redux/Action';
-// import Loader from '../components/Loader';
-// import {useNavigation} from '@react-navigation/native';
-
-// const ProductList = ({route}) => {
-//   const {categoryId} = route.params;
-//   const [loading, setLoading] = useState(true);
-//   const navigation = useNavigation();
-//   const dispatch = useDispatch();
-//   const products = useSelector(state => state.specific.specific);
-
-//   const handleAddToCart = item => {
-//     dispatch(addToCart(item));
-//   };
-//   const handleAddToFavorite = item => {
-//     dispatch(addToFavorite(item));
-//   };
-
-//   useEffect(() => {
-//     if (categoryId) {
-//       const fetchData = async () => {
-//         await dispatch(fetchProductSpecificCategory(categoryId)); // Fetch products
-//         setLoading(false); // Stop the loader after fetching data
-//       };
-//       fetchData();
-//     }
-//   }, [categoryId, dispatch]);
-
-//   const renderProduct = ({item}) => (
-//     <View style={{flex: 1, paddingBottom: 20}}>
-//       <TouchableOpacity
-//         style={styles.productContainer}
-//         onPress={() => navigation.navigate('ProductDetails', {product: item})}>
-//         <Image source={{uri: item.image}} style={styles.productImage} />
-//         <Text style={styles.productName}>{item.name}</Text>
-//         <Text style={styles.productBrand}>{item.brand}</Text>
-//         <Text style={styles.productPrice}>Rs {item.price}</Text>
-//       </TouchableOpacity>
-//       <View style={{flexDirection: 'row'}}>
-//         <TouchableOpacity
-//           onPress={() => handleAddToCart(item)}
-//           style={styles.addToCartButton}>
-//           <Text style={styles.addToCartText}>Add To Cart</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity
-//           onPress={() => handleAddToFavorite(item)}
-//           style={styles.favoriteButton}>
-//           <Image
-//             style={styles.favoriteIcon}
-//             source={require('../images/favoriteFilled.png')}
-//           />
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-
-//   return (
-//     <ScrollView>
-//       <View style={{flex: 1, padding: 16}}>
-//         <Text style={styles.title}>Products</Text>
-//         {loading ? (
-//           <Loader /> // Show the loader while data is being fetched
-//         ) : (
-//           <FlatList
-//             nestedScrollEnabled={true}
-//             scrollEnabled={false}
-//             data={products}
-//             keyExtractor={item => item.id}
-//             renderItem={renderProduct}
-//             numColumns={2}
-//             columnWrapperStyle={{justifyContent: 'space-between'}}
-//             showsVerticalScrollIndicator={false}
-//           />
-//         )}
-//       </View>
-//     </ScrollView>
-//   );
-// };
-
-// export default ProductList;
-
-// const styles = StyleSheet.create({
-//   title: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//     color: 'black',
-//     marginBottom: 10,
-//   },
-//   productContainer: {
-//     flex: 1,
-//     alignItems: 'flex-start',
-//   },
-//   productImage: {
-//     width: 150,
-//     height: 150,
-//     borderRadius: 10,
-//     backgroundColor: '#f0f0f0',
-//   },
-//   productName: {
-//     marginTop: 6,
-//     fontSize: 14,
-//     fontWeight: '600',
-//     color: 'black',
-//   },
-//   productPrice: {
-//     marginTop: 3,
-//     fontSize: 14,
-//     color: 'black',
-//   },
-//   productBrand: {
-//     marginTop: 3,
-//     fontWeight: '500',
-//     fontSize: 14,
-//     color: 'black',
-//   },
-//   addToCartButton: {
-//     backgroundColor: '#ff6f6f',
-//     borderRadius: 8,
-//     width: '66%',
-//     height: 30,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginTop: 6,
-//   },
-//   addToCartText: {
-//     color: 'white',
-//   },
-//   favoriteButton: {
-//     paddingLeft: 10,
-//   },
-//   favoriteIcon: {
-//     height: 38,
-//     width: 38,
-//   },
-// });
-
 import {
   StyleSheet,
   Text,
@@ -172,6 +20,7 @@ import {useNavigation} from '@react-navigation/native';
 const ProductList = ({route}) => {
   const {categoryId} = route.params;
   const [loading, setLoading] = useState(true);
+  const [favoriteIcon, setFavoriteIcon] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const products = useSelector(state => state.specific.specific);
@@ -180,6 +29,10 @@ const ProductList = ({route}) => {
     dispatch(addToCart(item));
   };
   const handleAddToFavorite = item => {
+    setFavoriteIcon(prevState => ({
+      ...prevState,
+      [item.id]: !prevState[item.id], // Toggle the state for the specific item
+    }));
     dispatch(addToFavorite(item));
   };
 
@@ -213,7 +66,11 @@ const ProductList = ({route}) => {
           onPress={() => handleAddToFavorite(item)}
           style={styles.favoriteButton}>
           <Image
-            style={styles.favoriteIcon}
+            style={{
+              height: 30,
+              width: 30,
+              tintColor: favoriteIcon[item.id] ? '#ff6f6f' : '#c9c3c3',
+            }}
             source={require('../images/favoriteFilled.png')}
           />
         </TouchableOpacity>
@@ -222,31 +79,64 @@ const ProductList = ({route}) => {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Text style={styles.title}>Products</Text>
-        {loading ? (
-          <Loader />
-        ) : (
-          <FlatList
-            nestedScrollEnabled={true}
-            scrollEnabled={false}
-            data={products}
-            keyExtractor={item => item.id}
-            renderItem={renderProduct}
-            numColumns={2}
-            columnWrapperStyle={styles.columnWrapper}
-            showsVerticalScrollIndicator={false}
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.headerIcon}
+            source={require('../images/arrowback.png')}
           />
-        )}
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Product List</Text>
+        <View style={styles.headerSpacer} />
       </View>
-    </ScrollView>
+      <ScrollView style={styles.container}>
+        <View style={styles.innerContainer}>
+          {loading ? (
+            <Loader />
+          ) : (
+            <FlatList
+              nestedScrollEnabled={true}
+              scrollEnabled={false}
+              data={products}
+              keyExtractor={item => item.id}
+              renderItem={renderProduct}
+              numColumns={2}
+              columnWrapperStyle={styles.columnWrapper}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 export default ProductList;
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+    backgroundColor: '#fac0ee',
+    height: 60,
+    elevation: 5,
+  },
+  headerIcon: {
+    height: 24,
+    width: 24,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'black',
+  },
+  headerSpacer: {
+    width: 24, // Match the width of the icon to keep the title centered
+  },
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
@@ -254,12 +144,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     padding: 16,
   },
-  title: {
-    fontSize: 26,
-    fontWeight: '700',
-    color: 'black',
-    marginBottom: 20,
-  },
+
   productWrapper: {
     flex: 1,
     paddingBottom: 20,
