@@ -54,10 +54,7 @@ const Main = () => {
   }, [dispatch]);
 
   const renderCategory = ({item}) => (
-    <TouchableOpacity
-      onPress={() => {
-        handleCategoryPress(item.id);
-      }}>
+    <TouchableOpacity onPress={() => handleCategoryPress(item.id)}>
       <View style={styles.categoryContainer}>
         <Image source={{uri: item.image}} style={styles.categoryImage} />
         <Text style={styles.categoryName}>{item.name}</Text>
@@ -78,7 +75,7 @@ const Main = () => {
         <Text style={styles.productPrice}>Rs {item.price}</Text>
       </TouchableOpacity>
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={styles.actionsContainer}>
         <TouchableOpacity
           onPress={() => handleAddToCart(item)}
           style={styles.addToCartButton}>
@@ -97,132 +94,69 @@ const Main = () => {
   );
 
   return (
-    <ScrollView>
-      <View style={{flex: 1}}>
-        <View
-          style={{
-            width: deviceWidth,
-            height: 60,
-            backgroundColor: '#fac0ee',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: 'row',
-            paddingRight: 10,
-            paddingLeft: 10,
-            borderBottomRightRadius: 10,
-            position: 'absolute',
-            borderBottomLeftRadius: 10,
-            elevation: 15,
-          }}>
-          <Image
-            style={{
-              height: 40,
-              width: 40,
-              borderRadius: 20,
-              backgroundColor: 'white',
-            }}
-            source={require('../images/apps.png')}
-          />
-          <Image
-            source={require('../images/myPic.png')}
-            style={{height: 40, width: 40, borderRadius: 20}}
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          style={styles.headerIcon}
+          source={require('../images/apps.png')}
+        />
+        <Image
+          source={require('../images/myPic.png')}
+          style={styles.profilePic}
+        />
+      </View>
+
+      <View style={styles.content}>
+        <Text style={styles.title}>Make Your Shopping</Text>
+
+        <View style={styles.searchContainer}>
+          <TouchableOpacity>
+            <Image
+              style={styles.searchIcon}
+              source={require('../images/search.png')}
+            />
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor="#a6a5a6"
+            style={styles.searchInput}
           />
         </View>
-        <View style={{paddingVertical: 70, paddingHorizontal: 16}}>
-          <Text style={{fontSize: 26, fontWeight: '600', color: 'black'}}>
-            Make Your Shopping
-          </Text>
-          <View
-            style={{
-              borderRadius: 14,
-              borderWidth: 1,
-              placeholderTextColor: 'black',
-              borderColor: 'black',
-              marginTop: 16,
-              alignItems: 'center',
-              flexDirection: 'row',
-              paddingLeft: 10,
-            }}>
-            <TouchableOpacity>
-              <Image
-                style={{height: 30, width: 30}}
-                source={require('../images/search.png')}
-              />
-            </TouchableOpacity>
-            <TextInput
-              placeholder="Search"
-              placeholderTextColor="#a6a5a6"
-              style={{paddingHorizontal: 10, fontSize: 16}}
-            />
-          </View>
-          <View>
-            <View
-              style={{paddingHorizontal: 4, paddingTop: 10, marginBottom: -10}}>
-              <Text style={{fontSize: 18, fontWeight: '600', color: 'black'}}>
-                Select Category
-              </Text>
-            </View>
-            <FlatList
-              data={categories}
-              keyExtractor={item => item.id}
-              renderItem={renderCategory}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{marginTop: 20}}
-            />
-          </View>
 
-          <View
-            style={{
-              flex: 1,
-              marginTop: 20,
-              padding: 20,
-              elevation: 1000,
-              borderRadius: 10,
-            }}>
-            <View>
-              <Text style={{fontSize: 18, fontWeight: '600', color: 'black'}}>
-                Select Price Range
-              </Text>
-            </View>
-            <PriceSlider />
-            <TouchableOpacity
-              style={{
-                width: 100,
-                height: 30,
-                backgroundColor: '#ff6f6f',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 10,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  textAlign: 'center',
-                  fontSize: 18,
-                  fontWeight: '800',
-                }}>
-                Apply
-              </Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.categorySection}>
+          <Text style={styles.sectionTitle}>Select Category</Text>
+          <FlatList
+            data={categories}
+            keyExtractor={item => item.id}
+            renderItem={renderCategory}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryList}
+          />
+        </View>
 
-          <View>
-            <Text style={styles.featuredTitle}>Featured Products</Text>
-            <FlatList
-              ///------VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.
-              nestedScrollEnabled={true}
-              scrollEnabled={false}
-              data={featuredProducts}
-              keyExtractor={item => item.id}
-              renderItem={renderProducts}
-              numColumns={2}
-              columnWrapperStyle={{justifyContent: 'space-between'}}
-              style={{marginTop: 10}}
-              showsVerticalScrollIndicator={false}
-            />
-            {loading && <Loader />}
-          </View>
+        <View style={styles.priceRangeSection}>
+          <Text style={styles.sectionTitle}>Select Price Range</Text>
+          <PriceSlider />
+          <TouchableOpacity style={styles.applyButton}>
+            <Text style={styles.applyButtonText}>Apply</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.featuredProductsSection}>
+          <Text style={styles.featuredTitle}>Featured Products</Text>
+          <FlatList
+            nestedScrollEnabled={true}
+            scrollEnabled={false}
+            data={featuredProducts}
+            keyExtractor={item => item.id}
+            renderItem={renderProducts}
+            numColumns={2}
+            columnWrapperStyle={styles.productListWrapper}
+            style={styles.productList}
+            showsVerticalScrollIndicator={false}
+          />
+          {loading && <Loader />}
         </View>
       </View>
     </ScrollView>
@@ -232,6 +166,76 @@ const Main = () => {
 export default Main;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    width: deviceWidth,
+    height: 60,
+    backgroundColor: '#fac0ee',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingRight: 10,
+    paddingLeft: 10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    elevation: 15,
+    position: 'absolute',
+    top: 0,
+  },
+  headerIcon: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: 'white',
+  },
+  profilePic: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+  },
+  content: {
+    paddingVertical: 70,
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: '600',
+    color: 'black',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 16,
+    paddingLeft: 10,
+    backgroundColor: '#fff',
+  },
+  searchIcon: {
+    height: 30,
+    width: 30,
+  },
+  searchInput: {
+    paddingHorizontal: 10,
+    fontSize: 16,
+    flex: 1,
+  },
+  categorySection: {
+    paddingVertical: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'black',
+    paddingHorizontal: 4,
+  },
+  categoryList: {
+    marginTop: 10,
+  },
   categoryContainer: {
     alignItems: 'center',
     marginRight: 16,
@@ -244,50 +248,64 @@ const styles = StyleSheet.create({
   },
   categoryName: {
     marginTop: 6,
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: '600',
     color: 'black',
   },
-  priceRangeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  priceInput: {
-    flex: 1,
-    height: 40,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginRight: 10,
-    paddingHorizontal: 10,
-    fontSize: 16,
+  priceRangeSection: {
+    marginTop: 20,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    elevation: 5,
   },
   applyButton: {
-    backgroundColor: '#fac0ee',
-    borderRadius: 5,
-    padding: 10,
+    width: 100,
+    height: 40,
+    backgroundColor: '#ff6f6f',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    marginTop: 10,
   },
-
-  featuredTitle: {
-    fontSize: 18,
-    marginLeft: 5,
+  applyButtonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16,
     fontWeight: '600',
-    color: 'black',
+  },
+  featuredProductsSection: {
     marginTop: 20,
   },
-
+  featuredTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: 'black',
+    marginBottom: 10,
+    marginLeft: 5,
+  },
+  productList: {
+    marginTop: 10,
+  },
+  productListWrapper: {
+    justifyContent: 'space-between',
+  },
   productContainer: {
     flex: 1,
     alignItems: 'flex-start',
     padding: 6,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginBottom: 10,
+    elevation: 5,
+    margin: 4,
   },
   productTouchable: {
     alignItems: 'flex-start',
   },
   productImage: {
-    width: 150,
-    height: 150,
+    width: 145,
+    height: 145,
     borderRadius: 10,
     backgroundColor: '#f0f0f0',
   },
@@ -300,13 +318,17 @@ const styles = StyleSheet.create({
   productPrice: {
     marginTop: 3,
     fontSize: 14,
-    color: 'black',
+    color: '#ff6f6f',
   },
   productBrand: {
     marginTop: 3,
     fontWeight: '500',
-    fontSize: 14,
-    color: 'black',
+    fontSize: 12,
+    color: '#8a8a8a',
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    marginTop: 6,
   },
   addToCartButton: {
     backgroundColor: '#ff6f6f',
@@ -315,10 +337,10 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 6,
   },
   addToCartText: {
     color: 'white',
+    fontWeight: '600',
   },
   favoriteButton: {
     paddingLeft: 10,
